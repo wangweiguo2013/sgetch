@@ -1,17 +1,22 @@
 class Monitor {
-    // 正在拖拽
     isDragging: boolean
     //当前拖拽的数据
-    activeDragData: Record<string, unknown>
-    activeDragTarget: HTMLElement | null
-    // 当前要放置的数据
-    activeDropTarget: HTMLElement | null
+    dragSource!: Record<string, unknown>
+    dragElement: HTMLElement | null
+    dropElement: HTMLElement | null
+
     constructor(){
         this.isDragging = false
-        this.activeDragElement = null
-        this.activeDropTarget = null
+        this.dragElement = null
+        this.dropElement = null
     }
+    
+    setDragSource(){}
+
+    setDragElement(){}
+    
+    setDropElement(){}
 
 }
 
-export default Monitor
+export default new Monitor()
