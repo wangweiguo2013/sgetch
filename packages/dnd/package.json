@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "type": "module",
+  "author": "wangweiguo2013",
   "license": "ISC",
   "dependencies": {
     "@sgetch/utils": "workspace:^1.0.0"

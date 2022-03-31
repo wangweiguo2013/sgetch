@@ -5,8 +5,10 @@ importers:
   .:
     specifiers:
       typescript: ^4.6.3
+      vite: ^2.9.0
     devDependencies:
       typescript: 4.6.3
+      vite: 2.9.0
 
   packages/dnd:
     specifiers:
@@ -15,7 +17,10 @@ importers:
       '@sgetch/utils': link:../utils
 
   packages/engine:
-    specifiers: {}
+    specifiers:
+      '@sgetch/dnd': workspace:^1.0.0
+    dependencies:
+      '@sgetch/dnd': link:../dnd
 
   packages/example:
     specifiers:
@@ -35,7 +40,6 @@ importers:
       typescript: ^4.4.4
       unplugin-vue-components: ^0.16.0
       unplugin-vue2-script-setup: ^0.6.11
-      vite: ^2.6.10
       vite-plugin-babel-import: ^2.0.5
       vite-plugin-vue2: ^1.9.0
       vue: ^2.6.14
@@ -67,7 +71,6 @@ importers:
       typescript: 4.6.3
       unplugin-vue-components: 0.16.0_vite@2.9.0+vue@2.6.14
       unplugin-vue2-script-setup: 0.6.17_vite@2.9.0
-      vite: 2.9.0_sass@1.49.10
       vite-plugin-babel-import: 2.0.5
       vite-plugin-vue2: 1.9.3_c225bd866d9611e43d141eb48012c4b4
       vue-class-component: 7.2.6_vue@2.6.14
@@ -631,7 +634,7 @@ packages:
     peerDependencies:
       vite: ^2.5.10
     dependencies:
-      vite: 2.9.0_sass@1.49.10
+      vite: 2.9.0
     dev: true
 
   /@volar/code-gen/0.28.10:
@@ -2381,7 +2384,7 @@ packages:
       webpack:
         optional: true
     dependencies:
-      vite: 2.9.0_sass@1.49.10
+      vite: 2.9.0
       webpack-virtual-modules: 0.4.3
     dev: true
 
@@ -2444,14 +2447,14 @@ packages:
       rollup: 2.70.1
       slash: 3.0.0
       source-map: 0.7.3
-      vite: 2.9.0_sass@1.49.10
+      vite: 2.9.0
       vue-template-compiler: 2.6.14
       vue-template-es2015-compiler: 1.9.1
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /vite/2.9.0_sass@1.49.10:
+  /vite/2.9.0:
     resolution: {integrity: sha512-5NAnNqzPmZzJvrswZGeTS2JHrBGIzIWJA2hBTTMYuoBVEMh0xwE0b5yyIXFxf7F07hrK4ugX2LJ7q6t7iIbd4Q==}
     engines: {node: '>=12.2.0'}
     hasBin: true
@@ -2471,7 +2474,6 @@ packages:
       postcss: 8.4.12
       resolve: 1.22.0
       rollup: 2.70.1
-      sass: 1.49.10
     optionalDependencies:
       fsevents: 2.3.2
     dev: true

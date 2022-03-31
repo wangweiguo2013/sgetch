@@ -6,7 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "type": "module",
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "wangweiguo2013",
+  "license": "ISC",
+  "dependencies": {
+    "@sgetch/dnd": "workspace:^1.0.0"
+  }
 }
