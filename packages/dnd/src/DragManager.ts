@@ -23,28 +23,33 @@ export class DragManager {
     }
 
     setDragStartHandler() {
-        this.el.addEventListener('mousedown', (e: Event) => {
+        this.el.addEventListener('mousedown', (e: MouseEvent) => {
             monitor.isDragging = true
+            this.dragPreviewEl = this.el.cloneNode(true) as HTMLElement
+            const { pageX, pageY } = e
+            this.dragPreviewEl.style.cssText = `
+                position: fixed;
+                left: 0px;
+                top: 0px;
+                transform: translate(${pageX}px, ${pageY}px);
+            `
+            document.body.appendChild(this.dragPreviewEl)
 
-            const dragMoveHandler = (e:MouseEvent) => {
-                this.dragPreviewEl = this.el.cloneNode(true) as HTMLElement
+            const dragMoveHandler = (e: MouseEvent) => {
                 const { pageX, pageY } = e
-                this.dragPreviewEl.style.cssText = `
-                    position: fixed;
-                    left: ${pageX}px;
-                `
-                document.appendChild(this.dragPreviewEl)
-
-
+                this.dragPreviewEl.style.cssText = `transform: translate(${pageX}px, ${pageY}px);`
             }
             document.addEventListener('mousemove', dragMoveHandler)
+            document.addEventListener('mouseup', this.setDragEndHandler.bind(this))
+
             this.dragMoveHandler = dragMoveHandler
         })
     }
 
     setDragEndHandler() {
         document.removeEventListener('mousemove' ,this.dragMoveHandler as any)
-        document.removeChild(this.dragPreviewEl)
+        document.body.removeChild(this.dragPreviewEl)
+        
     }
 
     removeHandlers() {

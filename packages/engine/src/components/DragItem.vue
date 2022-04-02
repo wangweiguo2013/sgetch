@@ -21,5 +21,8 @@ export default defineComponent({
 })
 </script>
 <style scoped>
+.drag-item {
+    user-select: none;
+}
 
 </style>

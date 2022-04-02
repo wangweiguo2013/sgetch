@@ -40,22 +40,27 @@ class DragManager {
     setDragStartHandler() {
         this.el.addEventListener('mousedown', (e) => {
             monitor.isDragging = true;
+            this.dragPreviewEl = this.el.cloneNode(true);
+            const { pageX, pageY } = e;
+            this.dragPreviewEl.style.cssText = `
+                position: fixed;
+                left: 0px;
+                top: 0px;
+                transform: translate(${pageX}px, ${pageY}px);
+            `;
+            document.body.appendChild(this.dragPreviewEl);
             const dragMoveHandler = (e) => {
-                this.dragPreviewEl = this.el.cloneNode(true);
                 const { pageX, pageY } = e;
-                this.dragPreviewEl.style.cssText = `
-                    position: fixed;
-                    left: ${pageX}px;
-                `;
-                document.appendChild(this.dragPreviewEl);
+                this.dragPreviewEl.style.cssText = `transform: translate(${pageX}px, ${pageY}px);`;
             };
             document.addEventListener('mousemove', dragMoveHandler);
+            document.addEventListener('mouseup', this.setDragEndHandler.bind(this));
             this.dragMoveHandler = dragMoveHandler;
         });
     }
     setDragEndHandler() {
         document.removeEventListener('mousemove', this.dragMoveHandler);
-        document.removeChild(this.dragPreviewEl);
+        document.body.removeChild(this.dragPreviewEl);
     }
     removeHandlers() {
     }
