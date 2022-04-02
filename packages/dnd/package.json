@@ -2,14 +2,22 @@
   "name": "@sgetch/dnd",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/index.js",
+  "typings": "build/src/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf dist && rollup -c",
+    "dev": "rollup -c --watch"
   },
   "type": "module",
   "author": "wangweiguo2013",
   "license": "ISC",
   "dependencies": {
     "@sgetch/utils": "workspace:^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.23",
+    "rollup": "^2.70.1",
+    "rollup-plugin-typescript2": "^0.31.2"
   }
 }

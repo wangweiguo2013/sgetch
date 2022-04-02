@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+      "target": "es2015",
+      "module": "es2015",
+      "declaration": true, 
+      "declarationDir": "build",
+      "sourceMap": true,                           /* Generates corresponding '.map' file. */
+      "outDir": "build",                              /* Redirect output structure to the directory. */
+      "allowSyntheticDefaultImports": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "rootDir": ".",  
+      "strict": true,            
+      "baseUrl": ".",                             /* Base directory to resolve non-absolute module names. */
+      "typeRoots": ["types", "./node_modules/@types"],
+      "esModuleInterop": true,
+      "lib": ["dom", "esnext"],                        
+      "skipLibCheck": true,                           /* Skip type checking of declaration files. */
+      "forceConsistentCasingInFileNames": true,        /* Disallow inconsistently-cased references to the same file. */
+      "resolveJsonModule": true,
+      "moduleResolution": "node"
+    },
+    "exclude": ["node_modules", "__test__", "build"]
+  }
+  

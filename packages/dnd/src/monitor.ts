@@ -19,4 +19,4 @@ class Monitor {
 
 }
 
-export default new Monitor()
+export const monitor =  new Monitor()

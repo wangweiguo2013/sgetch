@@ -1,4 +1,5 @@
-export const dragBeginHandler = () => {}
+export const dragBeginHandler = (el: HTMLElement) => {
+}
 export const dragMoveHandler = () => {}
 export const dragEngHandler = () => {}
 
