@@ -23,6 +23,14 @@ export default defineComponent({
 <style scoped>
 .drag-item {
     user-select: none;
+    width: 100px;
+    height: 100px;
+    border: 1px solid #787878;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
 }
 
 </style>

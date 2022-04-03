@@ -30,6 +30,7 @@ class DragManager {
             return;
         }
         this.el = element;
+        this.startRect = { x: 0, y: 0, w: 0, h: 0, mouseX: 0, mouseY: 0 };
         this.events = [];
         this.initEvents();
     }
@@ -39,28 +40,35 @@ class DragManager {
     }
     setDragStartHandler() {
         this.el.addEventListener('mousedown', (e) => {
-            monitor.isDragging = true;
-            this.dragPreviewEl = this.el.cloneNode(true);
             const { pageX, pageY } = e;
-            this.dragPreviewEl.style.cssText = `
-                position: fixed;
-                left: 0px;
-                top: 0px;
-                transform: translate(${pageX}px, ${pageY}px);
-            `;
+            monitor.isDragging = true;
+            const { x, y, width: w, height: h } = this.el.getBoundingClientRect();
+            this.startRect = { x, y, w, h, mouseX: pageX, mouseY: pageY };
+            this.dragPreviewEl = this.el.cloneNode(true);
+            this.dragPreviewEl.style.position = 'fixed';
+            this.dragPreviewEl.style.left = `${x}px`;
+            this.dragPreviewEl.style.top = `${y}px`;
+            this.dragPreviewEl.style.transform = `translate(0, 0)`;
             document.body.appendChild(this.dragPreviewEl);
             const dragMoveHandler = (e) => {
                 const { pageX, pageY } = e;
-                this.dragPreviewEl.style.cssText = `transform: translate(${pageX}px, ${pageY}px);`;
+                const deltaX = pageX - this.startRect.mouseX;
+                const deltaY = pageY - this.startRect.mouseY;
+                this.dragPreviewEl.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
             };
             document.addEventListener('mousemove', dragMoveHandler);
-            document.addEventListener('mouseup', this.setDragEndHandler.bind(this));
+            const listener = this.setDragEndHandler.bind(this);
+            document.addEventListener('mouseup', listener);
+            this.events.push({ target: document, type: 'mouseup', listener });
             this.dragMoveHandler = dragMoveHandler;
         });
     }
     setDragEndHandler() {
         document.removeEventListener('mousemove', this.dragMoveHandler);
         document.body.removeChild(this.dragPreviewEl);
+        this.events.forEach(({ target, type, listener }) => {
+            target.removeEventListener(type, listener);
+        });
     }
     removeHandlers() {
     }
