@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <DragItem>drag me</DragItem>
-    <DropItem style="margin-left: 300px">drop me </DropItem>
+    <DropItem style="margin-left: 300px" :id="1" @drop="handelDrop">drop me </DropItem>
   </div>
 </template>
 
@@ -16,19 +16,37 @@ import { monitor } from "@sgetch/dnd";
 import DragItem from "./components/DragItem.vue";
 import DropItem from "@/components/DropItem.vue"
 
+interface State {
+  activeWidgetId: string,
+  schema: {
+    id: number,
+    children: any[]
+  }
+}
+
 export default defineComponent({
   name: "App",
   components: { DragItem, DropItem },
   setup() {
-    const state = reactive({
-      activeWidgetId: '2123'
+    const state = reactive<State>({
+      activeWidgetId: '2123',
+      schema: {
+        id: 1,
+        children: []
+      }
     });
+
+    const handelDrop = (id: number, dragSource: any) => {
+      console.log(id, dragSource)
+      state.schema.children.push(dragSource)
+    }
 
     onMounted(() => {
       console.log(monitor)
     })
     return {
-      ...toRefs(state)
+      ...toRefs(state),
+      handelDrop,
     };
   },
 });

@@ -79,8 +79,26 @@ class DragManager {
     }
 }
 
-class DropManager {
+class EventEmitter {
+    constructor() {
+        this.events = {};
+    }
+    on(eventType, fn) {
+        this.events[eventType] = this.events[eventType] || [];
+        this.events[eventType].push(fn);
+    }
+    off(eventType, fn) {
+        if (this.events[eventType])
+            return;
+        this.events[eventType] = this.events[eventType].filter(listener => {
+            return listener !== fn;
+        });
+    }
+}
+
+class DropManager extends EventEmitter {
     constructor(el, activeClassName) {
+        super();
         const element = getElement(el);
         if (!element) {
             console.error('invalid html element');
@@ -104,8 +122,11 @@ class DropManager {
             return;
         this.isOver = true;
         this.el.classList.add(this.activeClassName);
+        //  发布消息
         this.dropHandler = () => {
-            console.log(monitor.getDragSource());
+            this.events['drop'] && this.events['drop'].forEach(sub => {
+                sub(monitor.getDragSource());
+            });
         };
         this.el.addEventListener('mouseup', this.dropHandler);
     }
@@ -116,6 +137,11 @@ class DropManager {
     }
     setCanDrop(canDrop) {
         this.canDrop = canDrop;
+    }
+    destroy() {
+        Object.keys(this.events).forEach(eventType => {
+            this.events[eventType] = [];
+        });
     }
 }
 

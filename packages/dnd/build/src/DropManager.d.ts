@@ -1,4 +1,5 @@
-export declare class DropManager {
+import EventEmitter from './utils/EventEmitter';
+export declare class DropManager extends EventEmitter {
     el: HTMLElement;
     activeClassName: string;
     canDrop: boolean;
@@ -11,4 +12,5 @@ export declare class DropManager {
     dragOver(): void;
     dragLeave(): void;
     setCanDrop(canDrop: boolean): void;
+    destroy(): void;
 }

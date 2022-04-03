@@ -8,7 +8,7 @@ import { defineComponent, onMounted, onUnmounted, ref } from '@vue/composition-a
 import { DragManager } from '@sgetch/dnd'
 
 export default defineComponent({
-    setup() {
+    setup(props, { emit }) {
         const dragEl = ref<HTMLElement | null>(null)
         let dragManager: any
         onMounted(() => {

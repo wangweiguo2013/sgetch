@@ -1,7 +1,7 @@
 import { monitor } from "./monitor"
 import { getElement } from "./utils"
-
-export class DropManager {
+import EventEmitter from './utils/EventEmitter'
+export class DropManager extends EventEmitter {
     el!: HTMLElement
     activeClassName!: string
     canDrop!: boolean
@@ -10,6 +10,7 @@ export class DropManager {
     dragLeaveListener!: EventListener
     dropHandler!: EventListener
     constructor(el: HTMLElement | string, activeClassName: string) {
+        super()
         const element = getElement(el)
         if(!element) {
             console.error('invalid html element')
@@ -28,6 +29,7 @@ export class DropManager {
 
         this.dragLeaveListener = this.dragLeave.bind(this)
         this.el.addEventListener('mouseleave', this.dragLeaveListener)
+
     }
 
     dragOver(){
@@ -35,8 +37,11 @@ export class DropManager {
         if(!monitor.isDragging) return
         this.isOver = true
         this.el.classList.add(this.activeClassName)
+        //  发布消息
         this.dropHandler = () => {
-            console.log(monitor.getDragSource())
+            this.events['drop'] && this.events['drop'].forEach(sub => {
+                sub(monitor.getDragSource())
+            })
         }
         this.el.addEventListener('mouseup', this.dropHandler)
     }
@@ -50,6 +55,12 @@ export class DropManager {
 
     setCanDrop(canDrop: boolean){
         this.canDrop = canDrop
+    }
+
+    destroy(){
+        Object.keys(this.events).forEach(eventType => {
+            this.events[eventType] = []
+        })
     }
 
 

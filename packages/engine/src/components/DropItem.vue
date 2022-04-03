@@ -5,16 +5,30 @@
     </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref } from '@vue/composition-api'
+import { defineComponent, onMounted, onUnmounted, ref } from '@vue/composition-api'
 import { DropManager } from '@sgetch/dnd'
 
 export default defineComponent({
-    setup() {
+    props: {
+        id: { type: Number }
+    },
+    setup(props, { emit }) {
+        const id = props.id
         const dropEl = ref<HTMLElement | null>(null)
+        let dropManager: any
+
 
         onMounted(() => {
-            new DropManager(dropEl.value as HTMLElement, 'active-drop')
+            dropManager = new DropManager(dropEl.value as HTMLElement, 'active-drop')
+            dropManager.on('drop', (dragSource:any) => {
+                emit('drop',id, dragSource )
+            })
         })
+
+        onUnmounted(() => {
+            dropManager && dropManager.destroy()
+        })
+
         return {
             dropEl
         }
