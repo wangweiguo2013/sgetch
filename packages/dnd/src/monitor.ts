@@ -1,7 +1,7 @@
 class Monitor {
     isDragging: boolean
     //当前拖拽的数据
-    dragSource!: Record<string, unknown>
+    dragSource!: Recordable | null
     dragElement: HTMLElement | null
     dropElement: HTMLElement | null
 
@@ -11,7 +11,13 @@ class Monitor {
         this.dropElement = null
     }
     
-    setDragSource(){}
+    setDragSource(dragSource: Recordable | null){
+        this.dragSource = dragSource
+    }
+
+    getDragSource() {
+        return this.dragSource
+    }
 
     setDragElement(){}
     

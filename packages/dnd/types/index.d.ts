@@ -4,3 +4,7 @@ interface Rect {
     w: number
     h: number
 }
+
+interface Recordable {
+    [string]: unknown
+}

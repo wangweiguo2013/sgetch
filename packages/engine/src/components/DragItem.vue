@@ -4,14 +4,25 @@
     </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref } from '@vue/composition-api'
+import { defineComponent, onMounted, onUnmounted, ref } from '@vue/composition-api'
 import { DragManager } from '@sgetch/dnd'
 
 export default defineComponent({
     setup() {
         const dragEl = ref<HTMLElement | null>(null)
+        let dragManager: any
         onMounted(() => {
-            new DragManager(dragEl.value)
+            const dragSource = {
+                tag: 'div',
+                attrs: {
+                    style: { width: 200, height: 200, backgroundColor: '#ff0000' },
+                    textContent: 'From drag!'
+                }
+            }
+           dragManager = new DragManager(dragEl.value as HTMLElement, dragSource)
+        })
+        onUnmounted(() => {
+            dragManager && dragManager.destroy()
         })
 
         return {

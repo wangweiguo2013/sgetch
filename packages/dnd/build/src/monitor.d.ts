@@ -1,10 +1,11 @@
 declare class Monitor {
     isDragging: boolean;
-    dragSource: Record<string, unknown>;
+    dragSource: Recordable | null;
     dragElement: HTMLElement | null;
     dropElement: HTMLElement | null;
     constructor();
-    setDragSource(): void;
+    setDragSource(dragSource: Recordable | null): void;
+    getDragSource(): Recordable | null;
     setDragElement(): void;
     setDropElement(): void;
 }

@@ -1,19 +1,16 @@
 export declare class DragManager {
     el: HTMLElement;
     dragPreviewEl: HTMLElement;
-    events: {
-        target: HTMLElement | Document;
-        type: string;
-        listener: EventListenerOrEventListenerObject;
-    }[];
+    dragSource: Recordable | null;
     startRect: Rect & {
         mouseX: number;
         mouseY: number;
     };
-    dragMoveHandler: Function;
-    constructor(el: HTMLElement | string);
-    initEvents(): void;
+    dragMoveHandler: EventListener;
+    dragEndHandler: EventListener;
+    constructor(el: HTMLElement | string, dragSource: Recordable);
+    initDrag(): void;
     setDragStartHandler(): void;
     setDragEndHandler(): void;
-    removeHandlers(): void;
+    destroy(): void;
 }

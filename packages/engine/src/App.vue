@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <DragItem>drag me</DragItem>
-    <DropItem>drop me </DropItem>
+    <DropItem style="margin-left: 300px">drop me </DropItem>
   </div>
 </template>
 
@@ -36,7 +36,6 @@ export default defineComponent({
 <style>
 .app {
   display: flex;
-  justify-content: space-between;
 }
 .sketch-con {
   width: 350px;
