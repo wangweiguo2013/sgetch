@@ -1,5 +1,6 @@
 import { getElement } from './utils'
 import { monitor } from './monitor'
+import { cloneDeep } from 'lodash-es'
 
 export class DragManager {
     el!: HTMLElement
@@ -16,7 +17,7 @@ export class DragManager {
         }
         this.el = element as HTMLElement
         this.startRect = { x: 0, y: 0, w: 0, h: 0, mouseX: 0, mouseY: 0 }
-        this.dragSource = dragSource
+        this.dragSource = cloneDeep(dragSource)
         this.initDrag()
     }
 

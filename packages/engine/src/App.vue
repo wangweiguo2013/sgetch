@@ -1,11 +1,4 @@
-<template>
-  <div class="app">
-    <DragItem>drag me</DragItem>
-    <DropItem style="margin-left: 300px" :id="1" @drop="handelDrop">drop me </DropItem>
-  </div>
-</template>
-
-<script lang="ts">
+<script lang="tsx">
 import {
   defineComponent,
   onMounted,
@@ -49,6 +42,20 @@ export default defineComponent({
       handelDrop,
     };
   },
+  render(){
+    const { handelDrop, schema } = this
+    return (
+      <div class="app">
+        <DragItem>drag me</DragItem>
+        <DropItem style={{marginLeft: '300px'}} id={1} vOn:drop={handelDrop}>
+          <p>drop me </p>
+          {schema.children.map((item, index) => {
+            return (<item.tag> {item.attrs.textContent} </item.tag>)
+          })}
+        </DropItem>
+      </div>
+    )
+  }
 });
 </script>
 <style>

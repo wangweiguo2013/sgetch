@@ -33,13 +33,13 @@ export class DropManager extends EventEmitter {
     }
 
     dragOver(){
-        console.log('dragOver',monitor.isDragging)
         if(!monitor.isDragging) return
         this.isOver = true
         this.el.classList.add(this.activeClassName)
         //  发布消息
+        const that = this
         this.dropHandler = () => {
-            this.events['drop'] && this.events['drop'].forEach(sub => {
+            that.events['drop'] && that.events['drop'].forEach(sub => {
                 sub(monitor.getDragSource())
             })
         }

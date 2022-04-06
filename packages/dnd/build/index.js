@@ -1,3 +1,5 @@
+import { cloneDeep } from 'lodash-es';
+
 class Monitor {
     constructor() {
         this.isDragging = false;
@@ -36,7 +38,7 @@ class DragManager {
         }
         this.el = element;
         this.startRect = { x: 0, y: 0, w: 0, h: 0, mouseX: 0, mouseY: 0 };
-        this.dragSource = dragSource;
+        this.dragSource = cloneDeep(dragSource);
         this.initDrag();
     }
     initDrag() {
@@ -117,14 +119,14 @@ class DropManager extends EventEmitter {
         this.el.addEventListener('mouseleave', this.dragLeaveListener);
     }
     dragOver() {
-        console.log('dragOver', monitor.isDragging);
         if (!monitor.isDragging)
             return;
         this.isOver = true;
         this.el.classList.add(this.activeClassName);
         //  发布消息
+        const that = this;
         this.dropHandler = () => {
-            this.events['drop'] && this.events['drop'].forEach(sub => {
+            that.events['drop'] && that.events['drop'].forEach(sub => {
                 sub(monitor.getDragSource());
             });
         };
