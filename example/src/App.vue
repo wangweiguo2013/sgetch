@@ -1,31 +1,5 @@
 <template>
   <div class="app">
-    <div class="layers-con">
-        <div v-for="item in components" :key="item.componentId">
-          <div class="draggable-component-item">
-            {{ item.name }}
-          </div>
-        </div>
-    </div>
-    <div class="sketch-con">
-      <div
-        class="sketch"
-      >
-        <!-- <Draggable
-          v-for="item in items"
-          :key="item.componentId"
-        > -->
-        <Block
-          v-for="item in items"
-          :key="item.componentId"
-          :data="item"
-          :activeWidgetId="activeWidgetId"
-          @attrsChange="onChange(item.componentId, $event)"
-          @active="onWidgetActive"
-        />
-        <!-- </Draggable> -->
-      </div>
-    </div>
   </div>
 </template>
 

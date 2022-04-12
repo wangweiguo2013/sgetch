@@ -4,7 +4,7 @@
     </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, ref } from '@vue/composition-api'
+import { defineComponent, h, onMounted, onUnmounted, ref } from '@vue/composition-api'
 import { DragManager } from '@sgetch/dnd'
 
 export default defineComponent({
@@ -17,6 +17,10 @@ export default defineComponent({
                 attrs: {
                     style: { width: 200, height: 200, backgroundColor: '#ff0000' },
                     textContent: 'From drag!'
+                },
+                render(source){
+                    const { tag, attrs} = source
+                    return h(tag, {}, attrs.textContent+'_ I am custom render!')
                 }
             }
            dragManager = new DragManager(dragEl.value as HTMLElement, dragSource)

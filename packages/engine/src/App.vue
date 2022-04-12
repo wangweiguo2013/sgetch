@@ -50,6 +50,7 @@ export default defineComponent({
         <DropItem style={{marginLeft: '300px'}} id={1} vOn:drop={handelDrop}>
           <p>drop me </p>
           {schema.children.map((item, index) => {
+            if(item.render) return item.render(item)
             return (<item.tag> {item.attrs.textContent} </item.tag>)
           })}
         </DropItem>

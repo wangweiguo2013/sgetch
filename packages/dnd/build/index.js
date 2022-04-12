@@ -129,12 +129,13 @@ class DropManager extends EventEmitter {
             that.events['drop'] && that.events['drop'].forEach(sub => {
                 sub(monitor.getDragSource());
             });
+            this.el.classList.remove(this.activeClassName);
         };
         this.el.addEventListener('mouseup', this.dropHandler);
     }
     dragLeave() {
         this.isOver = false;
-        this.el.classList.remove(this.activeClassName);
+        // this.el.classList.remove(this.activeClassName)
         this.dropHandler && this.el.removeEventListener('mouseup', this.dropHandler);
     }
     setCanDrop(canDrop) {

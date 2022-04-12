@@ -22,7 +22,7 @@ export default defineComponent({
             dropManager = new DropManager(dropEl.value as HTMLElement, 'active-drop')
             console.log('on mounted')
             dropManager.on('drop', (dragSource:any) => {
-                emit('drop',id, dragSource )
+                emit('drop', id, dragSource )
             })
         })
 

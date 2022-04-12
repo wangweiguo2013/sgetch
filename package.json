@@ -11,7 +11,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:app": "vite example"
+    "dev:app": "vite example",
+    "dev:dnd": "cd packages/dnd && npm run dev",
+    "dev:engine": "cd packages/engine && npm run dev"
   },
   "keywords": [],
   "author": "",
