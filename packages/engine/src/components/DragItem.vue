@@ -8,22 +8,16 @@ import { defineComponent, h, onMounted, onUnmounted, ref } from '@vue/compositio
 import { DragManager } from '@sgetch/dnd'
 
 export default defineComponent({
+    props: {
+        dragSource: {
+            type: Object
+        }
+    },
     setup(props, { emit }) {
         const dragEl = ref<HTMLElement | null>(null)
         let dragManager: any
         onMounted(() => {
-            const dragSource = {
-                tag: 'div',
-                attrs: {
-                    style: { width: 200, height: 200, backgroundColor: '#ff0000' },
-                    textContent: 'From drag!'
-                },
-                render(source){
-                    const { tag, attrs} = source
-                    return h(tag, {}, attrs.textContent+'_ I am custom render!')
-                }
-            }
-           dragManager = new DragManager(dragEl.value as HTMLElement, dragSource)
+           dragManager = new DragManager(dragEl.value as HTMLElement, props.dragSource)
         })
         onUnmounted(() => {
             dragManager && dragManager.destroy()

@@ -2,6 +2,17 @@ import { getElement } from './utils'
 import { monitor } from './monitor'
 import { cloneDeep } from 'lodash-es'
 
+
+function initPreviewEl(el: HTMLElement, { x, y } : { x: number, y: number }): HTMLElement {
+    const dragPreviewEl = el.cloneNode(true) as HTMLElement
+    dragPreviewEl.style.position = 'fixed'
+    dragPreviewEl.style.left = `${x}px`
+    dragPreviewEl.style.top = `${y}px`
+    dragPreviewEl.style.transform = `translate(0, 0)`
+    dragPreviewEl.style.pointerEvents = 'none'
+    return dragPreviewEl
+}
+
 export class DragManager {
     el!: HTMLElement
     dragPreviewEl!: HTMLElement
@@ -11,7 +22,7 @@ export class DragManager {
     dragEndHandler!: EventListener
     constructor(el: HTMLElement | string, dragSource: Recordable) {
         const element = getElement(el)
-        if(!element) {
+        if (!element) {
             console.error('invalid html element')
             return
         }
@@ -33,13 +44,8 @@ export class DragManager {
             monitor.setDragSource(this.dragSource)
 
             const { x, y, width: w, height: h } = this.el.getBoundingClientRect()
-            this.startRect = { x, y, w, h, mouseX: pageX, mouseY: pageY}
-            this.dragPreviewEl = this.el.cloneNode(true) as HTMLElement
-            this.dragPreviewEl.style.position = 'fixed'
-            this.dragPreviewEl.style.left = `${x}px`
-            this.dragPreviewEl.style.top = `${y}px`
-            this.dragPreviewEl.style.transform = `translate(0, 0)`
-            this.dragPreviewEl.style.pointerEvents = 'none'
+            this.startRect = { x, y, w, h, mouseX: pageX, mouseY: pageY }
+            this.dragPreviewEl = initPreviewEl(this.el, { x, y })
             document.body.appendChild(this.dragPreviewEl)
 
             const dragMoveHandler = (e: Event) => {
@@ -57,12 +63,12 @@ export class DragManager {
     }
 
     setDragEndHandler() {
-        document.removeEventListener('mousemove' ,this.dragMoveHandler)
-        document.removeEventListener('mouseup' ,this.dragEndHandler)
+        document.removeEventListener('mousemove', this.dragMoveHandler)
+        document.removeEventListener('mouseup', this.dragEndHandler)
         document.body.removeChild(this.dragPreviewEl)
         monitor.isDragging = false
         console.log('monitor', monitor.isDragging);
-        
+
     }
 
     destroy() {

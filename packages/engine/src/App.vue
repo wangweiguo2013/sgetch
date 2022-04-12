@@ -6,23 +6,27 @@ import {
   toRefs,
 } from "@vue/composition-api";
 import { monitor } from "@sgetch/dnd";
-import DragItem from "./components/DragItem.vue";
+import DragItem from "@/components/DragItem.vue";
 import DropItem from "@/components/DropItem.vue"
+import Block from "@/components/Block.vue"
+import { CMP } from "@/constant/index"
 
 interface State {
-  activeWidgetId: string,
+  activeWidgetId: string
+  componentList: any[]
   schema: {
-    id: number,
+    id: number
     children: any[]
   }
 }
 
 export default defineComponent({
   name: "App",
-  components: { DragItem, DropItem },
+  components: { DragItem, DropItem, Block },
   setup() {
     const state = reactive<State>({
       activeWidgetId: '2123',
+      componentList: CMP,
       schema: {
         id: 1,
         children: []
@@ -43,15 +47,18 @@ export default defineComponent({
     };
   },
   render(){
-    const { handelDrop, schema } = this
+    const { handelDrop, schema, componentList } = this
     return (
       <div class="app">
-        <DragItem>drag me</DragItem>
+        {
+          componentList.map(cmp => {
+            return <DragItem dragSource={cmp} key={cmp.id}>{cmp.name}</DragItem>
+          })
+        }
         <DropItem style={{marginLeft: '300px'}} id={1} vOn:drop={handelDrop}>
           <p>drop me </p>
           {schema.children.map((item, index) => {
-            if(item.render) return item.render(item)
-            return (<item.tag> {item.attrs.textContent} </item.tag>)
+            return (<Block data={item}></Block>)
           })}
         </DropItem>
       </div>
@@ -63,6 +70,7 @@ export default defineComponent({
 .app {
   display: flex;
 }
+
 .sketch-con {
   width: 350px;
   margin: 20px auto;
@@ -70,13 +78,16 @@ export default defineComponent({
   position: relative;
   border: 1px solid rgb(209, 209, 209);
 }
+
 .sketch {
   height: 100%;
 }
+
 .draggable-item {
   cursor: pointer;
   user-select: none;
 }
+
 .draggable-component-item {
   cursor: pointer;
   user-select: none;

@@ -29,6 +29,15 @@ const getElement = (el) => {
     return el;
 };
 
+function initPreviewEl(el, { x, y }) {
+    const dragPreviewEl = el.cloneNode(true);
+    dragPreviewEl.style.position = 'fixed';
+    dragPreviewEl.style.left = `${x}px`;
+    dragPreviewEl.style.top = `${y}px`;
+    dragPreviewEl.style.transform = `translate(0, 0)`;
+    dragPreviewEl.style.pointerEvents = 'none';
+    return dragPreviewEl;
+}
 class DragManager {
     constructor(el, dragSource) {
         const element = getElement(el);
@@ -51,12 +60,7 @@ class DragManager {
             monitor.setDragSource(this.dragSource);
             const { x, y, width: w, height: h } = this.el.getBoundingClientRect();
             this.startRect = { x, y, w, h, mouseX: pageX, mouseY: pageY };
-            this.dragPreviewEl = this.el.cloneNode(true);
-            this.dragPreviewEl.style.position = 'fixed';
-            this.dragPreviewEl.style.left = `${x}px`;
-            this.dragPreviewEl.style.top = `${y}px`;
-            this.dragPreviewEl.style.transform = `translate(0, 0)`;
-            this.dragPreviewEl.style.pointerEvents = 'none';
+            this.dragPreviewEl = initPreviewEl(this.el, { x, y });
             document.body.appendChild(this.dragPreviewEl);
             const dragMoveHandler = (e) => {
                 const { pageX, pageY } = e;
