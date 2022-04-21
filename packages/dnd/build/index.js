@@ -62,11 +62,12 @@ class DragManager {
             this.startRect = { x, y, w, h, mouseX: pageX, mouseY: pageY };
             this.dragPreviewEl = initPreviewEl(this.el, { x, y });
             document.body.appendChild(this.dragPreviewEl);
+            const that = this;
             const dragMoveHandler = (e) => {
                 const { pageX, pageY } = e;
-                const deltaX = pageX - this.startRect.mouseX;
-                const deltaY = pageY - this.startRect.mouseY;
-                this.dragPreviewEl.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+                const deltaX = pageX - that.startRect.mouseX;
+                const deltaY = pageY - that.startRect.mouseY;
+                that.dragPreviewEl.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
             };
             document.addEventListener('mousemove', dragMoveHandler);
             this.dragEndHandler = this.setDragEndHandler.bind(this);
@@ -90,15 +91,13 @@ class EventEmitter {
         this.events = {};
     }
     on(eventType, fn) {
-        this.events[eventType] = this.events[eventType] || [];
-        this.events[eventType].push(fn);
+        this.events[eventType] = this.events[eventType] || new Set();
+        this.events[eventType].add(fn);
     }
     off(eventType, fn) {
-        if (this.events[eventType])
+        if (!this.events[eventType])
             return;
-        this.events[eventType] = this.events[eventType].filter(listener => {
-            return listener !== fn;
-        });
+        this.events[eventType].delete(fn);
     }
 }
 
@@ -133,13 +132,13 @@ class DropManager extends EventEmitter {
             that.events['drop'] && that.events['drop'].forEach(sub => {
                 sub(monitor.getDragSource());
             });
-            this.el.classList.remove(this.activeClassName);
+            that.el.classList.remove(that.activeClassName);
         };
         this.el.addEventListener('mouseup', this.dropHandler);
     }
     dragLeave() {
+        console.log('leave');
         this.isOver = false;
-        // this.el.classList.remove(this.activeClassName)
         this.dropHandler && this.el.removeEventListener('mouseup', this.dropHandler);
     }
     setCanDrop(canDrop) {
@@ -147,7 +146,7 @@ class DropManager extends EventEmitter {
     }
     destroy() {
         Object.keys(this.events).forEach(eventType => {
-            this.events[eventType] = [];
+            this.events[eventType] = new Set();
         });
     }
 }

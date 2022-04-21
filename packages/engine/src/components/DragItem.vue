@@ -5,7 +5,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, h, onMounted, onUnmounted, ref } from '@vue/composition-api'
-import { DragManager } from '@sgetch/dnd'
+import { DragManager } from '@sgetch/dnd/src/index'
 
 export default defineComponent({
     props: {

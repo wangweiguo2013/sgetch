@@ -42,15 +42,16 @@ export class DropManager extends EventEmitter {
             that.events['drop'] && that.events['drop'].forEach(sub => {
                 sub(monitor.getDragSource())
             })
-            this.el.classList.remove(this.activeClassName)
+            that.el.classList.remove(that.activeClassName)
+            this.dropHandler && this.el.removeEventListener('mouseup', this.dropHandler)
         }
         this.el.addEventListener('mouseup', this.dropHandler)
     }
 
 
     dragLeave(){
+        console.log('leave')
         this.isOver = false
-        // this.el.classList.remove(this.activeClassName)
         this.dropHandler && this.el.removeEventListener('mouseup', this.dropHandler)
     }
 
@@ -60,7 +61,7 @@ export class DropManager extends EventEmitter {
 
     destroy(){
         Object.keys(this.events).forEach(eventType => {
-            this.events[eventType] = []
+            this.events[eventType] = new Set()
         })
     }
 

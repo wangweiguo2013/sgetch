@@ -1,6 +1,5 @@
 <script lang="tsx">
 import { defineComponent, h, onMounted, onUnmounted, ref } from '@vue/composition-api'
-import { DragManager } from '@sgetch/dnd'
 
 export default {
     name: "Block",

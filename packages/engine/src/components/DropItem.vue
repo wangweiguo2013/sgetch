@@ -1,12 +1,11 @@
 <template>
     <div class="drop-item" ref="dropEl"> 
-        <div class="child" style="width: 50px; height:50px; background: #ff0080;"></div>
         <slot />
     </div>
 </template>
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, ref } from '@vue/composition-api'
-import { DropManager } from '@sgetch/dnd'
+import { DropManager } from '@sgetch/dnd/src/index'
 
 export default defineComponent({
     props: {

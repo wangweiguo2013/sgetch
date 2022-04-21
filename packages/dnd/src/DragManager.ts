@@ -48,13 +48,15 @@ export class DragManager {
             this.dragPreviewEl = initPreviewEl(this.el, { x, y })
             document.body.appendChild(this.dragPreviewEl)
 
+            const that = this
             const dragMoveHandler = (e: Event) => {
                 const { pageX, pageY } = e as MouseEvent
-                const deltaX = pageX - this.startRect.mouseX
-                const deltaY = pageY - this.startRect.mouseY
-                this.dragPreviewEl.style.transform = `translate(${deltaX}px, ${deltaY}px)`
+                const deltaX = pageX - that.startRect.mouseX
+                const deltaY = pageY - that.startRect.mouseY
+                that.dragPreviewEl.style.transform = `translate(${deltaX}px, ${deltaY}px)`
             }
             document.addEventListener('mousemove', dragMoveHandler)
+
             this.dragEndHandler = this.setDragEndHandler.bind(this)
             document.addEventListener('mouseup', this.dragEndHandler)
 
